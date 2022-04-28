@@ -41,6 +41,7 @@ export default {
     .text {
         display: inline-block;
         vertical-align: top;
+        line-height: 44px;
         font-size: $font-size-large;
     }
     .mine {
