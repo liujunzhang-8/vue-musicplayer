@@ -19,8 +19,8 @@
                                 <img width="60" height="60" v-lazy="item.cover" src="" alt="">
                             </div>
                             <div class="text">
-                                <h2 class="name">{{item.title}}</h2>
-                                <p class="desc">{{item.rcmdtemplate}}</p>
+                                <h2 class="name">{{item.rcmdtemplate}}</h2>
+                                <p class="desc">{{item.title}}</p>
                             </div>
                         </li>
                     </ul>
@@ -67,6 +67,9 @@ export default {
                 this.$refs.scroll.refresh()
             }
         },
+        selectItem() {
+            console.log('点击歌曲名');
+        },
         _getRecommend() {
             getRecommend().then(res => {
                 if(res.result === ERR_OK) {
@@ -77,7 +80,6 @@ export default {
         _getDiscList() {
             getDiscList().then(res => {
                 if(res.result === ERR_OK) {
-                    console.log(res.data, '获取歌单列表');
                     this.discList = res.data.list
                 }
             }).catch((e) => {

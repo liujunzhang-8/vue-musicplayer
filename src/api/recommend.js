@@ -19,7 +19,6 @@ export function getDiscList() {
     // const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
     // const url = '/api/getDiscList'
     const url = '/recommend/playlist/u'
-
     return request(url).then((res) => {
         return Promise.resolve(res)
     })
