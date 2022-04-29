@@ -36,7 +36,7 @@ let vendor = (() => {
             return key
         }
     }
-    return key
+    return false
 })()
 
 export function prefixStyle(style) {

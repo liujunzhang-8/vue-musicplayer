@@ -3,9 +3,9 @@
         <scroll ref="scroll" class="recommend-content" :data="discList">
             <div>
                 <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
-                    <slider>
+                    <slider :loop="loop" :autoPlay="autoPlay" :interval='interval'>
                         <div v-for="(item, index) in recommends" :key="index">
-                            <a :href="item.linkUrl">
+                            <a :href="item.h5Url">
                                 <img :src="item.picUrl" class="needsclick" @load="loadImage" alt="">
                             </a>
                         </div>
@@ -16,11 +16,11 @@
                     <ul>
                         <li @click="selectItem(item)" v-for="(item, index) in discList" :key="index" class="item">
                             <div class="icon">
-                                <img width="60" height="60" v-lazy="item.imgurl" src="" alt="">
+                                <img width="60" height="60" v-lazy="item.cover" src="" alt="">
                             </div>
                             <div class="text">
-                                <h2 class="name"></h2>
-                                <p class="desc"></p>
+                                <h2 class="name">{{item.title}}</h2>
+                                <p class="desc">{{item.rcmdtemplate}}</p>
                             </div>
                         </li>
                     </ul>
@@ -36,10 +36,9 @@
 
 <script>
 import Slider from '../../base/slider/slider'
-
 import Loading from '../../base/loading/loading'
 import Scroll from '../../base/scroll/scroll'
-import { getRecommend } from '../../api/recommend'
+import { getRecommend, getDiscList } from '../../api/recommend'
 import { ERR_OK } from '../../api/config' 
 export default {
     components: {
@@ -49,26 +48,40 @@ export default {
     },
     data() {
         return {
+            loop: true,
+            autoPlay: true,
+            interval: 1000,
             recommends: [],
             discList: []
         };
     },
     created() {
         this._getRecommend()
+        this._getDiscList()
     },
     computed: {},
     methods: {
         loadImage () {
             if(!this.checkloaded) {
-                
+                this.checkloaded = true
+                this.$refs.scroll.refresh()
             }
         },
         _getRecommend() {
             getRecommend().then(res => {
-                if(res.code === ERR_OK) {
-                    console.log(res.data.slider);
-                    this.recommends = res.data.slider
+                if(res.result === ERR_OK) {
+                    this.recommends = res.data
                 }
+            })
+        },
+        _getDiscList() {
+            getDiscList().then(res => {
+                if(res.result === ERR_OK) {
+                    console.log(res.data, '获取歌单列表');
+                    this.discList = res.data.list
+                }
+            }).catch((e) => {
+                console.log(e);
             })
         }
     }

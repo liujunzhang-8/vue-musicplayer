@@ -1,17 +1,26 @@
-import jsonp from './../common/js/jsonp';
-import { commonParams, options } from './config';
+// import jsonp from './../common/js/jsonp';
+// import { commonParams, options } from './config';
+import { request } from '../common/js/axios'
 // const qqMusic = require('qq-music-api');
 
 
 export function getRecommend () {
-    const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
-    // const url = 'http://192.168.2.10:3300/recommend/banner'
-
-    const data = Object.assign({}, commonParams,  {
-        platform: 'h5',
-        uin: 0,
-        needNewCode: 1
+    // 轮播图接口
+    // const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
+    const url = '/recommend/banner'
+    return request(url).then((res) => {
+        return Promise.resolve(res)
     })
 
-    return jsonp(url, data, options)
+    // return jsonp(url, data, options)
+}
+
+export function getDiscList() {
+    // const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
+    // const url = '/api/getDiscList'
+    const url = '/recommend/playlist/u'
+
+    return request(url).then((res) => {
+        return Promise.resolve(res)
+    })
 }

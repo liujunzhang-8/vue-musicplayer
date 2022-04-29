@@ -8,6 +8,8 @@ import fastclick from 'fastclick'
 /** 图片懒加载 */
 import VueLazyload from 'vue-lazyload'
 import './common/scss/index.scss'
+Vue.prototype.$axios = axios
+axios.defaults.baseURL = 'http://127.0.0.1:3300'
 
 fastclick.attach(document.body)
 

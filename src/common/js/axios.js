@@ -1,50 +1,30 @@
-import axios from 'axios'
+import axios from "axios";
+export function request(config) {
 
-export default function (config) {
-    // 创建一个新的axios实例
     const instance = axios.create({
-        baseURL: 'http://192.168.2.10:3300',
-        timeout: 5000
+        baseURL: process.env.VUE_APP_BASE_API, // 通过/api别名指定后端路由
+        timeout: 5000,
+        headers: {
+        },
     })
 
-    /**
-     * 请求拦截器
-     */
-    instance.interceptors.request.use(
-        config => {
-            // 请求成功时
-            console.log(config)
-            /**
-             *  可能在这里进行的处理
-             *    1. 需要检查config的配置
-             *    2. 在请求过程中的动画
-             *    3. 某些网络请求是必须携带一些特殊的信息 如 token
-             */
-            console.log(config.headers)
+    // axios的拦截器(类似python的中间件的request)
+    instance.interceptors.request.use(aaa => {
 
-            return config // 需要将config作为返回值返回
-        },
-        err => {
-            // 请求失败的时候
-            console.log(err)
-        }
-    )
-
-    /**
-     * 响应拦截器
-     *  对响应结果进行的处理
-     */
-    instance.interceptors.response.use(
-        result => {
-            // 这里会将结果进行拦截
-            return result.data
-            // console.log(result)
-        },
-        err => {
-
-        }
-    )
-
-    // 返回请求对象 返回一个 Promise 对象
+        // 多用于登录时的cookies判断
+        return aaa
+    }, err => {
+        console.log(err);
+    })
+    // 数据返回拦截
+    instance.interceptors.response.use(aaa => {
+        // 多用于登录时的cookies判断
+        return aaa.data
+    }, err => {
+        console.log(err);
+    })
+    // 直接返回
     return instance(config)
+
 }
+

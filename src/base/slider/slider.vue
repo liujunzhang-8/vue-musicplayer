@@ -4,7 +4,7 @@
             <slot></slot>
         </div>
         <div class="dots">
-            <span class="dot" :class="{active: currentPageIndex === index}"  v-for="(item, index) in dots" :key="item"></span>
+            <span class="dot" v-for="(item, index) in dots" :key="item" :class="{active: currentPageIndex === index}"></span>
         </div>
     </div>
 </template>
@@ -62,6 +62,7 @@ export default {
     deactivated() {
         clearTimeout(this.timer)
     },
+    // 清除定时器
     beforeDestroy() {
         clearTimeout(this.timer)
     },
@@ -90,9 +91,11 @@ export default {
                 snap: true,
                 snapLoop: this.loop,
                 snapThreshold: 0.3,
-                snapSpeed: 400
+                snapSpeed: 400,
+                click: true
             })
             this.slider.on('scrollEnd', () => {
+                // better-scroll 高版本不支持 getCurrentPage() 这个函数
                 let pageIndex = this.slider.getCurrentPage().pageX
                 if(this.loop) {
                     pageIndex -= 1

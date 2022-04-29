@@ -2,6 +2,7 @@
   <div id="app" @touchmove.prevent>
     <m-header></m-header>
     <tab></tab>
+    <!-- 缓存Dom -->
     <keep-alive>
         <router-view></router-view>
     </keep-alive>
