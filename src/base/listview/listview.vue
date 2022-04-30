@@ -52,9 +52,13 @@ export default {
     },
     computed: {
         shortcutList() {
-            return this.data.map((group) => {
-                return group.title.substr(0, 1)
-            })
+            let shortcut = []
+            if(this.data.length) {
+                return this.data.map((group) => {
+                    return shortcut = group.title.substr(0, 1)
+                })
+            }
+            return shortcut
         },
         fixedTitle() {
             if(this.scrollY > 0) {
@@ -68,6 +72,9 @@ export default {
         this.listenScroll = true
         this.touch = {}
         this.listHeight = []
+    },
+    mounted() {
+        console.log(this.data, '获取歌手数据');
     },
     methods: {
         selectItem(item) {
@@ -103,7 +110,7 @@ export default {
             for(let i = 0; i < list.length; i++) {
                 let item = list[i]
                 height += item.clientHeight
-                this.listHeight.push(height)
+                this.listHeight.push(height)  
             }
         },
         _scrollTo(index) {
