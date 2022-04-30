@@ -79,8 +79,10 @@ export default {
         return hot.concat(ret)
             
     },
-    selectSinger() {
-        console.log('选择歌手');
+    selectSinger(singer) {
+        this.$router.push({
+            path: `/singer/${singer.id}`
+        })
     }
   },
 };
