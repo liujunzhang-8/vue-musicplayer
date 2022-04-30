@@ -7,6 +7,7 @@ import axios from 'axios'
 import fastclick from 'fastclick'
 /** 图片懒加载 */
 import VueLazyload from 'vue-lazyload'
+import store from './store'
 import './common/scss/index.scss'
 Vue.prototype.$axios = axios
 axios.defaults.baseURL = 'http://127.0.0.1:3300'
@@ -20,6 +21,7 @@ Vue.use(VueLazyload, {
 })
 
 new Vue({
+  store,
   render: h => h(App),
-  router
+  router,
 }).$mount('#app')

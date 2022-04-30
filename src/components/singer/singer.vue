@@ -10,6 +10,7 @@ import ListView from '../../base/listview/listview'
 import { getSingerList } from "../../api/singer";
 import { ERR_OK1 } from "../../api/config";
 import Singer from '../../common/js/singer';
+import { mapMutations } from 'vuex'
 
 const HOT_SINGER_LEN = 10
 const HOT_NAME = '热门'
@@ -83,7 +84,11 @@ export default {
         this.$router.push({
             path: `/singer/${singer.id}`
         })
-    }
+        this.setSinger(singer)
+    },
+    ...mapMutations({
+        setSinger: 'SET_SINGER'
+    })
   },
 };
 </script>

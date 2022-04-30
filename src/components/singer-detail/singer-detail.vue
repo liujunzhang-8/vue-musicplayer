@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     components: {},
     data() {
@@ -12,7 +13,14 @@ export default {
 
         };
     },
-    computed: {},
+    computed: {
+        ...mapGetters([
+            'singer'
+        ]) 
+    },
+    created() {
+        console.log(this.singer, '打印歌手信息');
+    }
 }
 </script>
 <style lang='scss' scoped>
