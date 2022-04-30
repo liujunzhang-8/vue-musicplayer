@@ -14,6 +14,7 @@ export default {
         };
     },
     computed: {
+        // 获取存储在store中的值
         ...mapGetters([
             'singer'
         ]) 

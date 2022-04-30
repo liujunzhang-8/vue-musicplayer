@@ -86,6 +86,7 @@ export default {
         })
         this.setSinger(singer)
     },
+    // 存储值
     ...mapMutations({
         setSinger: 'SET_SINGER'
     })
