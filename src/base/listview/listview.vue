@@ -81,16 +81,21 @@ export default {
             this.$emit('select', item)
         },
         onShortcutTouchStart(e) {
+            console.log(e);
             let anchorIndex = getData(e.target, 'index')
             let firstTouch = e.touches[0]
+            // 开始选择时的值
             this.touch.y1 = firstTouch.pageY
             this.touch.anchorIndex = anchorIndex
 
             this._scrollTo(anchorIndex)
         },
         onShortcutTouchMove(e) {
+            console.log(e);
             let firstTouch = e.touches[0]
+            // 结束时选择的值
             this.touch.y2 = firstTouch.pageY
+            // 锚点偏移量
             let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0
             let anchorIndex = parseInt(this.touch.anchorIndex) + delta
 
@@ -101,7 +106,7 @@ export default {
         },
         scroll(pos) {
             this.scrollY = pos.y
-        },
+        }, 
         _calculateHeight() {
             this.listHeight = []
             const list = this.$refs.listGroup
