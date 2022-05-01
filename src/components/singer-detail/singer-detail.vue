@@ -44,7 +44,6 @@ export default {
             getSingerDetail(this.singer.id).then(res => {
                 if(res.result === ERR_OK) {
                     this.songs = res.data.list
-                    console.log(this.songs, '打印歌手信息');
                     this.songs.forEach(item => {
                         // console.log('获取到的歌曲详情-处理前', item);
                         this.singerInfo = item

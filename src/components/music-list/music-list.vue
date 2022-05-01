@@ -14,8 +14,10 @@
         <div class="filter" ref="filter"></div>
     </div>
     <div class="bg-layer" ref="layer"></div>
-    <scroll :data="songs" @scroll="scroll" class="list">
-        <div class="song-list-wrapper"></div>
+    <scroll :probe-type="probeType" :listen-scroll="listenScroll" :data="songs" @scroll="scroll" class="list" ref="list">
+        <div class="song-list-wrapper">
+            <song-list :songs="songs"></song-list>
+        </div>
         <div v-show="!songs.length" class="loading-container">
             <loading></loading>
         </div>
@@ -26,10 +28,12 @@
 <script>
 import Scroll from '../../base/scroll/scroll'
 import Loading from '../../base/loading/loading'
+import SongList from '../../base/song-list/song-list'
 import { prefixStyle } from '../../common/js/dom'
 
 const RESERVED_HEIGHT = 40
 const transform = prefixStyle('transform')
+//  backdrop-filter 为一个元素后面区域添加图形效果（如模糊或颜色偏移）。因为它适用于元素背后的所有元素，为了看到效果，必须使元素或其背景至少部分透明
 const backdrop = prefixStyle('backdrop-filter')
 export default {
   props: {
@@ -45,10 +49,15 @@ export default {
       type: String,
       default: "",
     },
+    rank: {
+        type: Boolean,
+        default: false
+    }
   },
   components: {
       Scroll,
-      Loading
+      Loading,
+      SongList
   },
   data() {
     return {
@@ -60,8 +69,47 @@ export default {
       return `background-image: url(${this.bgImage})`;
     },
   },
+  watch: {
+      scrollY(newVal) {
+          // Math.max 获取最小值 
+          let translateY = Math.max(this.minTransalteY, newVal)
+          let scale = 1
+          let zIndex = 0
+          let blur = 0
+          // Math.abs 获取数据的绝对值
+          const percent = Math.abs(newVal / this.imageHeight)
+          if (newVal > 0) {
+              scale = 1 + percent
+              zIndex = 10
+          } else {
+            //   获取最大值
+              blur = Math.min(20, percent * 20)
+          }
+          // this.$refs.name 获取元素   
+          this.$refs.layer.style[transform] = `translate3d(0, ${translateY}px, 0)`
+          this.$refs.filter.style[backdrop] = `blur(${blur}px)`
+          if(newVal < this.minTransalteY) {
+              zIndex = 10
+              this.$refs.bgImage.style.paddingTop = 0
+              this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`
+              this.$refs.playBtn.style.display = 'none'
+          } else {
+              this.$refs.bgImage.style.paddingTop = '70%'
+              this.$refs.bgImage.style.height = 0
+              this.$refs.playBtn.style.display = ''
+          }
+          this.$refs.bgImage.style[transform] = `scale(${scale})`
+          this.$refs.bgImage.style.zIndex = zIndex
+      }
+  },
+  created() {
+      this.probeType = 3
+      this.listenScroll = true
+  },
   mounted() {
-      console.log(this.title, '获取songs值');
+      this.imageHeight = this.$refs.bgImage.clientHeight
+      this.minTransalteY = -this.imageHeight + RESERVED_HEIGHT
+      this.$refs.list.$el.style.top = `${this.imageHeight}px`
   },
   methods: {
     back() {
@@ -72,6 +120,9 @@ export default {
     },
     random() {
         console.log(111);
+    },
+    selectItem(item, index) {
+        console.log(item , index);
     }
   },
 };
@@ -115,7 +166,7 @@ export default {
     position: relative;
     width: 100%;
     height: 0;
-    z-index: 999;
+    // z-index: 999;
     padding-top: 70%;
     transform-origin: top;
     background-size: cover;
