@@ -76,7 +76,6 @@ export default {
         ret.sort((a, b) => {
             return a.title.charCodeAt(0) - b.title.charCodeAt(0)
         })
-        console.log(hot.concat(ret), '打印歌手');
         return hot.concat(ret)
             
     },
@@ -85,6 +84,7 @@ export default {
             path: `/singer/${singer.id}`
         })
         this.setSinger(singer)
+        console.log(singer, '获取歌手信息');
     },
     // 存储值
     ...mapMutations({

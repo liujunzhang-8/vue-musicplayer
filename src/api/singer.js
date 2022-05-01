@@ -1,6 +1,6 @@
 import jsonp from '../common/js/jsonp'
 import { commonParams, options } from './config'
-// import { request } from '../common/js/axios'
+import { request } from '../common/js/axios'
 
 export function getSingerList() {
     // const url = '/singer/list'
@@ -30,4 +30,23 @@ export function getSingerList() {
         g_tk: 1664029744
     })
     return jsonp(url, data, options)
+}
+
+export function getSingerDetail(singerId) {
+    const url = `/singer/album?singermid=${singerId}`
+
+    // const data = Object.assign({
+    //     // hostUin: 0,
+    //     // needNewCode: 0,
+    //     // platform: 'yqq',
+    //     // order: 'listen',
+    //     // begin: 0,
+    //     // num: 80,
+    //     // songstatus: 1,
+        
+    // })
+    // return jsonp(url, data, options)
+    return request(url).then(res => {
+        return Promise.resolve(res)
+    })
 }
