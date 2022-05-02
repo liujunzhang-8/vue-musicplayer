@@ -123,7 +123,6 @@ export default {
         console.log(111);
     },
     selectItem(item, index) {
-        console.log(item , index);
         this.selectPlay({
             list: this.songs,
             index

@@ -1,7 +1,11 @@
 <template>
     <div class='player' v-show="playlist.length > 0">
         <transition name="normal" @enter="enter" @after-enter="afterEnter" @leave="leave" @after-leave="afterLeave">
-            <div class="normal-player" v-show="fullScreen">播放器</div>
+            <div class="normal-player" v-show="fullScreen">
+                <div class="background">
+                    <img width="100%" height="100%" :src="currentSong.image" alt="">
+                </div>
+            </div>
         </transition>
         
         <div class="mini-player" v-show="!fullScreen">播放器</div>
@@ -9,7 +13,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
+import animations from 'create-keyframe-animation';
+import { prefixStyle } from '../../common/js/dom'
+
+const transform = prefixStyle('transform')
+const transitionDuration = prefixStyle('transitionDuration')
 export default {
 
     components: {},
@@ -22,8 +31,14 @@ export default {
         ...mapGetters([
             'currentIndex',
             'fullScreen',
-            'playlist'
+            'playlist',
+            'currentSong'
         ])
+    },
+    watch: {
+        currentSong(newSong, oldSong) {
+            console.log('新歌' + newSong, '旧歌' + oldSong);
+        }
     },
     methods: {
         enter(el, done) {
@@ -40,6 +55,31 @@ export default {
                     transform: `translate3d(0,0,0) scale(1)`
                 }
             }
+            
+            animations.registerAnimation({
+                name: 'move',
+                animation,
+                presets: {
+                    duration: 400,
+                    easing: 'linear'
+                }
+            })
+
+            // animations.runAnimation(this.$refs.cdWrapper, 'move', done)
+        },
+        afterEnter() {
+            animations.unregisterAnimation('move')
+            // this.$refs.cdWrapper.style.animation = ''
+        },
+        leave(el, done) {
+            // this.$refs.cdWrapper.style.transition = 'all 0.4s'
+            const {x, y, scale} = this._getPosAndScale()
+            // this.$refs.cdWrapper.style[transform] = `translate3d(${x}px, ${y}px, 0) scale(${scale})`
+            // this.$refs.cdWrapper.addEventListener('transitionend', done)
+        },
+        afterLeave() {
+            // this.$refs.cdWrapper.style.transition = ''
+            // this.$refs.cdWrapper.style[transform] = ''
         },
         _getPosAndScale() {
             const targetWidth = 40
@@ -57,6 +97,12 @@ export default {
             }
 
         },
+        ...mapMutations({
+            setFullScreen: 'SET_FULL_SCREEN'
+        }),
+        ...mapActions([
+            'insertSong'
+        ])
     }
 }
 </script>
