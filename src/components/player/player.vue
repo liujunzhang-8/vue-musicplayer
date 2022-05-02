@@ -1,6 +1,9 @@
 <template>
     <div class='player' v-show="playlist.length > 0">
-        <div class="normal-player" v-show="fullScreen">播放器</div>
+        <transition name="normal" @enter="enter" @after-enter="afterEnter" @leave="leave" @after-leave="afterLeave">
+            <div class="normal-player" v-show="fullScreen">播放器</div>
+        </transition>
+        
         <div class="mini-player" v-show="!fullScreen">播放器</div>
     </div>
 </template>
@@ -22,6 +25,39 @@ export default {
             'playlist'
         ])
     },
+    methods: {
+        enter(el, done) {
+            const {x, y, scale} = this._getPosAndScale()
+
+            let animation = {
+                0: {
+                    transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})`
+                },
+                60: {
+                    transform: `translate3d(0,0,0) scale(1, 1)`
+                },
+                100: {
+                    transform: `translate3d(0,0,0) scale(1)`
+                }
+            }
+        },
+        _getPosAndScale() {
+            const targetWidth = 40
+            const paddingLeft = 40
+            const paddingBottom = 30
+            const paddingTop = 80
+            const width = window.innerWidth * 0.8
+            const scale = targetWidth / width
+            const x = -(window.innerWidth / 2 - paddingLeft)
+            const y = window.innerHeight - paddingTop - width / 2 -paddingBottom
+            return {
+                x,
+                y,
+                scale
+            }
+
+        },
+    }
 }
 </script>
 <style lang='scss' scoped>
