@@ -33,23 +33,23 @@
                         <span class="dot"></span>
                     </div>
                     <div class="progress-wrapper">
-                        <span class="time time-l"></span>
+                        <span class="time time-l">{{format(currentTime)}}</span>
                         <div class="progress-bar-wrapper">
                             <progress-bar :percent='percent' @percentChange="onProgressBarChange"></progress-bar>
                         </div>
-                        <span class="time time-l"></span>
+                        <span class="time time-l">{{format(currentSong.duration)}}</span>
                     </div>
                     <div class="operators">
                         <div class="icon i-left">
                             <i></i>
                         </div>
-                        <div class="icon i-left">
+                        <div class="icon i-left" :class="disableCls">
                             <i class="icon-prev"></i>
                         </div>
-                        <div class="icon i-center">
-                            <i :class="playIcon"></i>
+                        <div class="icon i-center" :class="disableCls">
+                            <i @click="togglePlaying" :class="playIcon"></i>
                         </div>
-                        <div class="icon i-right">
+                        <div class="icon i-right" :class="disableCls">
                             <i class="icon-next"></i>
                         </div>
                         <div class="icon i-right">
@@ -65,12 +65,12 @@
                     <img width="40" height="40" :src="currentSong.image" alt="">
                 </div>
                 <div class="text">
-                    <h2 class="name"></h2>
-                    <p class="desc"></p>
+                    <h2 class="name">{{currentSong.album_name}}</h2>
+                    <p class="desc">{{currentSong.singer_name}}</p>
                 </div>
                 <div class="control">
                     <progress-circle :radius="radius" :percent="percent">
-                        <i class="icon-mini" :class="miniIcon"></i>
+                        <i @click="togglePlaying" class="icon-mini" :class="miniIcon"></i>
                     </progress-circle>
                 </div>
                 <div class="control">
@@ -78,7 +78,7 @@
                 </div>
             </div>
         </transition>
-        <audio ref="audio" src="https://fourthof5assets.s3-eu-west-1.amazonaws.com/heng-feeling-good.mp3" rossOrigin=“anonymous” @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
+        <audio ref="audio" :src="currentSong.url" autoplay rossOrigin=“anonymous” @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
     </div>
 </template>
 
@@ -115,8 +115,6 @@ export default {
         };
     },
     created() {
-        // this.currentSong = this.playlist[]
-        console.log(this.currentSong.image, '获取歌曲照顾');
     },
     computed: {
         playIcon() {
@@ -124,6 +122,9 @@ export default {
         },
         miniIcon() {
             return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+        },
+        disableCls() {
+            return this.songReady ? '' : 'disable'
         },
         percent() {
             return this.currentTime / this.currentSong.duration
@@ -135,8 +136,11 @@ export default {
         ]),
     },
     watch: {
-        currentSong(newSong, oldSong) {
-            console.log('新歌' + newSong, '旧歌' + oldSong);
+        playing(newPlaying) {
+            const audio = this.$refs.audio
+            this.$nextTick(() => {
+                newPlaying ? audio.play() : audio.pause()
+            })
         }
     },
     methods: {
@@ -186,6 +190,15 @@ export default {
             this.$refs.cdWrapper.style.transition = ''
             this.$refs.cdWrapper.style[transform] = ''
         },
+        togglePlaying() {
+            if(!this.songReady) {
+                return
+            }
+            this.setPlayingState(!this.playing)
+            if(this.currentLyric) {
+                this.currentLyric.togglePlay()
+            }
+        },
         ready() {
             this.songReady = true
         },
@@ -197,6 +210,14 @@ export default {
         },
         end() {
 
+        },
+        _pad(num, n=2) {
+            let len = num.toString().length
+            while(len < n) {
+                num = '0' + num
+                len++
+            }
+            return num
         },
         format(interval) {
             interval = interval | 0

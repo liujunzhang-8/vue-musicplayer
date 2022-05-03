@@ -42,7 +42,8 @@ export default {
     selectItem(item, index) {
       console.log(item, '获取歌单列表之');
       item.image = `https://y.qq.com/music/photo_new/T002R300x300M000${item.album_mid}.jpg?max_age=2592000`
-      item.url = `https://y.qq.com/n/ryqq/albumDetail/${item.album_mid}`
+      item.url = `http://dl.stream.qqmusic.qq.com/RS02060tZKLF4Jux2z.mp3?guid=1630613491&vkey=4329DCB81024B8B3BAE180D4C2F05D31A241F056D3C6F6D3B5B8107B45957F14B3C4877878769DC1AFDB5F1F892324B523E76D112E79F0D8&uin=&fromtag=120002`
+      item.duration = '60'
       this.$emit("select", item, index);
     },
     getRankCls(index) {
