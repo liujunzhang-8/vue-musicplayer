@@ -50,3 +50,5 @@ export function getSingerDetail(singerId) {
         return Promise.resolve(res)
     })
 }
+
+// 获取音乐 getMusic
