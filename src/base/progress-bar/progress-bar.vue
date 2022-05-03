@@ -33,10 +33,17 @@ export default {
     computed: {},
     methods: {
         progressTouchStart(e) {
-
+            this.touch.initiated = true
+            this.touch.startX = e.touches[0].pageX
+            this.touch.left = this.$refs.progress.clientWidth
         },
         progressTouchMove(e) {
-
+            if(!this.touch.initiated) {
+                return
+            }
+            const deltaX =e.touches[0].pageX - this.touch.startX
+            const offsetWidth = Math.min(this.$refs.progressBar.clientWidth - progressBtnWidth, Math.max(0, this.touch.left + deltaX))
+            this._offset(offsetWidth)
         },
         progressTouchEnd(e) {
             this.touch.initiated = false

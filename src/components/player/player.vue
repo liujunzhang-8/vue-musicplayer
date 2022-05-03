@@ -16,7 +16,7 @@
                     <div class="middle-l" ref="middleL">
                         <div class="cd-wrapper" ref="cdWrapper">
                             <div class="cd">
-                                <img class="image" src="" alt="">
+                                <img class="image" :src="currentSong.image" alt="">
                             </div>
                         </div>
                         <div class="playing-lyric-wrapper">
@@ -35,7 +35,7 @@
                     <div class="progress-wrapper">
                         <span class="time time-l"></span>
                         <div class="progress-bar-wrapper">
-
+                            <progress-bar :percent='percent' @percentChange="onProgressBarChange"></progress-bar>
                         </div>
                         <span class="time time-l"></span>
                     </div>
@@ -62,7 +62,7 @@
         <transition name="mini">
             <div class="mini-player" v-show="!fullScreen" @click="open">
                 <div class="icon">
-                    <img width="40" height="40" src="" alt="">
+                    <img width="40" height="40" :src="currentSong.image" alt="">
                 </div>
                 <div class="text">
                     <h2 class="name"></h2>
@@ -78,6 +78,7 @@
                 </div>
             </div>
         </transition>
+        <audio ref="audio" src="https://fourthof5assets.s3-eu-west-1.amazonaws.com/heng-feeling-good.mp3" rossOrigin=“anonymous” @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
     </div>
 </template>
 
@@ -87,6 +88,8 @@ import animations from 'create-keyframe-animation';
 import { prefixStyle } from '../../common/js/dom';
 import ProgressBar from '../../base/progress-bar/progress-bar'
 import ProgressCircle from '../../base/progress-circle/progress-circle'
+import { playMode } from '../../common/js/config' 
+import Lyric from 'lyric-parser'
 import Scroll from '../../base/scroll/scroll';
 import { playerMixin } from '../../common/js/mixin'
 
@@ -102,17 +105,18 @@ export default {
     },
     data() {
         return {
+            songReady: false,
             currentTime: 0,
-            radius: 32
+            radius: 32,
+            currentLyric: null,
+            currentLineNum: 0,
+            currentShow: 'cd',
+            playingLyric: ''
         };
     },
     created() {
         // this.currentSong = this.playlist[]
-        console.log(this.currentSong.album_mid, '获取歌曲照顾');
-        if(this.currentSong) {
-
-            this.currentSong.image = `https://y.qq.com/music/photo_new/T002R300x300M000${this.currentSong.album_mid}.jpg?max_age=2592000`  
-        }
+        console.log(this.currentSong.image, '获取歌曲照顾');
     },
     computed: {
         playIcon() {
@@ -129,10 +133,6 @@ export default {
             'fullScreen',
             'playing'
         ]),
-        // currentSong() {
-        //     let index = this.currentIndex
-        //     return this.currentSong = this.playlist[index]
-        // }
     },
     watch: {
         currentSong(newSong, oldSong) {
@@ -170,21 +170,49 @@ export default {
                 }
             })
 
-            // animations.runAnimation(this.$refs.cdWrapper, 'move', done)
+            animations.runAnimation(this.$refs.cdWrapper, 'move', done)
         },
         afterEnter() {
             animations.unregisterAnimation('move')
-            // this.$refs.cdWrapper.style.animation = ''
+            this.$refs.cdWrapper.style.animation = ''
         },
         leave(el, done) {
-            // this.$refs.cdWrapper.style.transition = 'all 0.4s'
+            this.$refs.cdWrapper.style.transition = 'all 0.4s'
             const {x, y, scale} = this._getPosAndScale()
-            // this.$refs.cdWrapper.style[transform] = `translate3d(${x}px, ${y}px, 0) scale(${scale})`
-            // this.$refs.cdWrapper.addEventListener('transitionend', done)
+            this.$refs.cdWrapper.style[transform] = `translate3d(${x}px, ${y}px, 0) scale(${scale})`
+            this.$refs.cdWrapper.addEventListener('transitionend', done)
         },
         afterLeave() {
-            // this.$refs.cdWrapper.style.transition = ''
-            // this.$refs.cdWrapper.style[transform] = ''
+            this.$refs.cdWrapper.style.transition = ''
+            this.$refs.cdWrapper.style[transform] = ''
+        },
+        ready() {
+            this.songReady = true
+        },
+        error() {
+            this.songReady = true
+        },
+        updateTime(e) {
+            this.currentTime = e.target.currentTime
+        },
+        end() {
+
+        },
+        format(interval) {
+            interval = interval | 0
+            const minute = interval / 60 | 0
+            const second = this._pad(interval % 60)
+            return `${minute}:${second}`
+        },
+        onProgressBarChange(percent) {
+            const currentTime = this.currentSong.duration * percent
+            this.$refs.audio.currentTime = currentTime
+            if(!this.playing) {
+                this.togglePlaying()
+            }
+            if(this.currentLyric) {
+                this.currentLyric.seek(currentTime * 1000)
+            }
         },
         _getPosAndScale() {
             const targetWidth = 40

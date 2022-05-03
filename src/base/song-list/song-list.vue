@@ -40,7 +40,9 @@ export default {
   computed: {},
   methods: {
     selectItem(item, index) {
-        console.log(item, '获取歌单列表之');
+      console.log(item, '获取歌单列表之');
+      item.image = `https://y.qq.com/music/photo_new/T002R300x300M000${item.album_mid}.jpg?max_age=2592000`
+      item.url = `https://y.qq.com/n/ryqq/albumDetail/${item.album_mid}`
       this.$emit("select", item, index);
     },
     getRankCls(index) {
@@ -79,15 +81,15 @@ export default {
         width: 25px;
         height: 24px;
         background-size: 25px 24px;
-        &.icon0 {
-          bg-image: ("first");
-        }
-        &.icon1 {
-          bg-image: ("second");
-        }
-        &.icon2 {
-          bg-image: ("third");
-        }
+        // &.icon0 {
+        //   bg-image: ("first");
+        // }
+        // &.icon1 {
+        //   bg-image: ("second");
+        // }
+        // &.icon2 {
+        //   bg-image: ("third");
+        // }
       }
       .text {
         color: $color-theme;
