@@ -84,7 +84,6 @@ export default {
             path: `/singer/${singer.id}`
         })
         this.setSinger(singer)
-        console.log(singer, '获取歌手信息');
     },
     // 存储值
     ...mapMutations({

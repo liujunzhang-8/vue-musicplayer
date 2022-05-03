@@ -68,7 +68,11 @@
                     <h2 class="name"></h2>
                     <p class="desc"></p>
                 </div>
-                <div class="control"></div>
+                <div class="control">
+                    <progress-circle :radius="radius" :percent="percent">
+                        <i class="icon-mini" :class="miniIcon"></i>
+                    </progress-circle>
+                </div>
                 <div class="control">
                     <i class="icon-playlist"></i>
                 </div>
@@ -81,6 +85,8 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import animations from 'create-keyframe-animation';
 import { prefixStyle } from '../../common/js/dom';
+import ProgressBar from '../../base/progress-bar/progress-bar'
+import ProgressCircle from '../../base/progress-circle/progress-circle'
 import Scroll from '../../base/scroll/scroll';
 import { playerMixin } from '../../common/js/mixin'
 
@@ -88,10 +94,16 @@ const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
 export default {
     mixins: [playerMixin],
-    components: {},
+    components: {
+        ProgressBar,
+        ProgressCircle,
+        Scroll
+
+    },
     data() {
         return {
-
+            currentTime: 0,
+            radius: 32
         };
     },
     created() {
@@ -104,7 +116,13 @@ export default {
     },
     computed: {
         playIcon() {
-            return this.playing ? 'play' : 'play pause'
+            return this.playing ? 'icon-pause' : 'icon-play'
+        },
+        miniIcon() {
+            return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+        },
+        percent() {
+            return this.currentTime / this.currentSong.duration
         },
         ...mapGetters([
             'currentIndex',
