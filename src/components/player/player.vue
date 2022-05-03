@@ -23,7 +23,9 @@
                             <div class="playing-lyric"></div>
                         </div>
                     </div>
-                    <scroll class="middle-r" ref="lyricList"></scroll>
+                    <scroll class="middle-r" ref="lyricList">
+                        <div class="lyric-wrapper"></div>
+                    </scroll>
                 </div>
                 <div class="bottom">
                     <div class="dot-wrapper">
@@ -45,7 +47,7 @@
                             <i class="icon-prev"></i>
                         </div>
                         <div class="icon i-center">
-                            <i></i>
+                            <i :class="playIcon"></i>
                         </div>
                         <div class="icon i-right">
                             <i class="icon-next"></i>
@@ -79,12 +81,13 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import animations from 'create-keyframe-animation';
 import { prefixStyle } from '../../common/js/dom';
-import Scroll from '../../base/scroll/scroll'
+import Scroll from '../../base/scroll/scroll';
+import { playerMixin } from '../../common/js/mixin'
 
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
 export default {
-
+    mixins: [playerMixin],
     components: {},
     data() {
         return {
@@ -100,11 +103,13 @@ export default {
         }
     },
     computed: {
+        playIcon() {
+            return this.playing ? 'play' : 'play pause'
+        },
         ...mapGetters([
             'currentIndex',
             'fullScreen',
-            'playlist',
-            'currentSong'
+            'playing'
         ]),
         // currentSong() {
         //     let index = this.currentIndex

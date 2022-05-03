@@ -1,3 +1,5 @@
+
+
 export default class Song {
     constructor({ singer_id, singer_mid, singer, singers, album_name, duration, image, url}) {
         this.singer_id = singer_id
