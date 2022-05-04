@@ -120,7 +120,9 @@ export default {
         this.scrollY = pos.y
     },
     random() {
-        console.log(111);
+        this.randomPlay({
+            list: this.songs
+        })
     },
     selectItem(item, index) {
         this.selectPlay({
@@ -129,7 +131,8 @@ export default {
         })
     },
     ...mapActions([
-        'selectPlay'
+        'selectPlay',
+        'randomPlay'
     ])
   },
 };
