@@ -44,13 +44,13 @@
                             <i :class="iconMode"></i>
                         </div>
                         <div class="icon i-left" :class="disableCls">
-                            <i class="icon-prev"></i>
+                            <i @click="prev" class="icon-prev"></i>
                         </div>
                         <div class="icon i-center" :class="disableCls">
                             <i @click="togglePlaying" :class="playIcon"></i>
                         </div>
                         <div class="icon i-right" :class="disableCls">
-                            <i class="icon-next"></i>
+                            <i @click="next" class="icon-next"></i>
                         </div>
                         <div class="icon i-right">
                             <i class="icon"></i>
@@ -91,6 +91,7 @@ import ProgressCircle from '../../base/progress-circle/progress-circle'
 import Lyric from 'lyric-parser'
 import Scroll from '../../base/scroll/scroll';
 import { playerMixin } from '../../common/js/mixin'
+import { playMode } from '../../common/js/config';
 
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
@@ -298,7 +299,57 @@ export default {
             this.currentTime = e.target.currentTime
         },
         end() {
-
+            if(this.mode === playMode.loop) {
+                this.loop()
+            } else {
+                this.next()
+            }
+        },
+        loop() {
+            this.$refs.audio.currentTime = 0
+            this.$refs.audio.play()
+            this.setPlayingState(true)
+            if(this.currentLyric) {
+                this.currentLyric.seek(0)
+            }
+        },
+        next() {
+            if(!this.songReady) {
+                return
+            }
+            if(this.playlist.length === 1) {
+                this.loop()
+                return
+            } else {
+                let index = this.currentIndex + 1
+                if(index === this.playlist.length) {
+                    index = 0
+                }
+                this.setCurrentIndex(index)
+                if(!this.playing) {
+                    this.togglePlaying()
+                }
+            }
+            this.songReady = false
+        },
+        prev() {
+            if(!this.songReady) {
+                return
+            }
+            if(this.playlist.length === 1) {
+                this.loop()
+                return
+            } else {
+                let index = this.currentIndex - 1
+                if(index === -1) {
+                    index = this.playlist.length - 1
+                }
+                this.setCurrentIndex(index)
+                if(!this.playing) {
+                    this.togglePlaying()
+                }
+            }
+            this.songReady = false
         },
         _pad(num, n=2) {
             let len = num.toString().length

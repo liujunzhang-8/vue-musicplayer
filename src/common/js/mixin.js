@@ -53,6 +53,9 @@ export const playerMixin = {
         },
         resetCurrentIndex(list) {
             let index = list.findIndex(item => {
+                if (item.id === this.currentSong.singer_id) {
+                    console.log('能否获取到随机数据呢002', item);
+                }
                 return item.id === this.currentSong.singer_id
             })
             this.setCurrentIndex(index)
@@ -62,7 +65,10 @@ export const playerMixin = {
             setPlaylist: 'SET_PLAYLIST',
             setCurrentIndex: 'SET_CURRENT_INDEX',
             setPlayingState: 'SET_PLAYING_STATE'
-        })
+        }),
+        ...mapActions([
+
+        ])
     }
 }
 
