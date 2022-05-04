@@ -10,7 +10,7 @@ import VueLazyload from 'vue-lazyload'
 import store from './store'
 import './common/scss/index.scss'
 Vue.prototype.$axios = axios
-axios.defaults.baseURL = 'http://127.0.0.1:3300'
+axios.defaults.baseURL = ''
 
 fastclick.attach(document.body)
 

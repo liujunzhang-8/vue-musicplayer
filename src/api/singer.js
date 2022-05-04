@@ -52,3 +52,26 @@ export function getSingerDetail(singerId) {
 }
 
 // 获取音乐 getMusic
+export function getMusic() {
+    const url = '/api/music'
+    const data = Object.assign({}, commonParams, {
+        // ["004FZzwj4Z5Kie","003GQmyL0icxA4","002LI1ay437Zjy","000Z0iml0i77h5"]
+        songmid: '004FZzwj4Z5Kie',
+        // filename: 'C400' + songmid + '.m4a',
+        guid: '5090598280',
+        cookie: 'pgv_pvid = 7895946860; ts_uid=473273140; fqm_pvqid=923180ac- cc3a - 4544 - 8cad - f9d298716a4e; yq_index = 0; userAction = 1; ts_refer = link.csdn.net /; fqm_sessionid = 76c879f1 - 8d89 - 4de0 - 8b7b - 8c52c512059d; pgv_info = ssid = s4305763352; ts_last = y.qq.com / n / ryqq / player',
+        platform: '20',
+        loginflag: 1,
+        songtype: [0],
+        // needNewCode: 0,
+        uin: 0,
+        format: 'json'
+    })
+
+    return request(url, {
+        params: data
+    }).then(res => {
+        console.log(res, '打印获取的是护具值');
+        return Promise.resolve(res)
+    })
+}
