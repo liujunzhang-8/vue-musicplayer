@@ -53,8 +53,8 @@ export const playerMixin = {
         },
         resetCurrentIndex(list) {
             let index = list.findIndex(item => {
-                if (item.id === this.currentSong.singer_id) {
-                }
+                // if (item.id === this.currentSong.singer_id) {
+                // }
                 return item.id === this.currentSong.singer_id
             })
             this.setCurrentIndex(index)

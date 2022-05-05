@@ -46,7 +46,7 @@
                   v-for="(line, index) in currentLyric.lines"
                   :key="index"
                   class="text"
-                  :class="{ current: currentLineNum === 'index' }"
+                  :class="{ 'current': currentLineNum === index }"
                 >
                   {{ line.txt }}
                 </p>
@@ -124,7 +124,6 @@
     <audio
       ref="audio"
       :src="currentSong.url"
-      autoplay
       rossOrigin="“anonymous”"
       @play="ready"
       @error="error"
@@ -167,6 +166,7 @@ export default {
     };
   },
   created() {
+      this.touch = {}
       this.getLyric()
   },
   computed: {
@@ -296,6 +296,7 @@ export default {
         0,
         Math.max(-window.innerWidth, left + deltaX)
       );
+    //   Math.abs 绝对值
       this.touch.percent = Math.abs(offsetWidth / window.innerWidth);
       this.$refs.lyricList.$el.style[
         transform
@@ -452,6 +453,16 @@ export default {
       //     this.currentLineNum = 0
       // })
     },
+    handleLyric({lineNum, txt}) {
+        this.currentLineNum = lineNum
+        if(lineNum > 5) {
+            let lineEl = this.$refs.lyricLine[lineNum - 5]
+            this.$refs.lyricList.scrollToElement(lineEl, 1000)
+        } else {
+            this.$refs.lyricList.scrollTo(0,0,1000)
+        }
+        this.playingLyric = txt
+    },
     _getPosAndScale() {
       const targetWidth = 40;
       const paddingLeft = 40;
@@ -583,7 +594,7 @@ export default {
             height: 20px;
             line-height: 20px;
             font-size: $font-size-medium;
-            color: $color-text-l;
+            color: $color-text;
           }
         }
       }
