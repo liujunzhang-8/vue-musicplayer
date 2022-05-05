@@ -42,10 +42,10 @@ export default {
     selectItem(item, index) {
       item.image = `https://y.qq.com/music/photo_new/T002R300x300M000${item.album_mid}.jpg?max_age=2592000`
       if(item.singer_name === '薛之谦') {
-          item.url = `https://dl.stream.qqmusic.qq.com/C400001lsRQA4aX07f.m4a?guid=9234340882&vkey=456FED8977642F563D975262ADEF53D5142EE996A2CC3ACA064532FC32CA6058463CD0131247B5235EA08F0FA20C478C793C6144421CBA5D&uin=&fromtag=120002`
+          item.url = `http://dl.stream.qqmusic.qq.com/C400001lsRQA4aX07f.m4a?guid=7002942716&vkey=232769C0EB211F0D2C6F684C8B44D3141C30247C68093EF58BED97D992935A6B8FB64E4E26CDD4B725DC72120F71C5F369FDA79154CE2D18&uin=&fromtag=120002`
           item.duration = '240'
       } else {
-          item.url = `http://dl.stream.qqmusic.qq.com/C400000An6OI4ScInL.m4a?guid=7296396650&vkey=9F09E9EFA152A30A8FD7611E10FDEAAB4F2DB73AF9BCB189F628C58FBB4CECD921C98B5B222370475E93EDCFC3FC0F8DD63B744375825462&uin=&fromtag=120002`
+          item.url = `http://dl.stream.qqmusic.qq.com/C400000An6OI4ScInL.m4a?guid=2097669609&vkey=3FBF3708F7726DA4A89CC265AACA699E4EFADEE0C690559142ECA02F85E61572D8EC7A20E179E634F20B73F87E0A5A9E87041F624503D4F5&uin=&fromtag=120002`
           item.duration = '180'
       }
       this.$emit("select", item, index);
