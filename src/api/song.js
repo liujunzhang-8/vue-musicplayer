@@ -1,6 +1,7 @@
 import {commonParams} from './config'
 import axios from 'axios'
 
+// 获取歌词功能待完善，目前接口不通，无法实时获取歌词数据
 export function getLyric(mid) {
     const url = '/api/lyric'
 

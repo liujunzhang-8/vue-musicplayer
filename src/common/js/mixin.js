@@ -54,7 +54,6 @@ export const playerMixin = {
         resetCurrentIndex(list) {
             let index = list.findIndex(item => {
                 if (item.id === this.currentSong.singer_id) {
-                    console.log('能否获取到随机数据呢002', item);
                 }
                 return item.id === this.currentSong.singer_id
             })
