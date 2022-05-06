@@ -30,6 +30,7 @@ import Scroll from '../../base/scroll/scroll'
 import Loading from '../../base/loading/loading'
 import SongList from '../../base/song-list/song-list'
 import { prefixStyle } from '../../common/js/dom'
+import { playlistMixin } from '../../common/js/mixin'
 import {mapActions} from 'vuex'
 
 const RESERVED_HEIGHT = 40
@@ -37,6 +38,7 @@ const transform = prefixStyle('transform')
 //  backdrop-filter 为一个元素后面区域添加图形效果（如模糊或颜色偏移）。因为它适用于元素背后的所有元素，为了看到效果，必须使元素或其背景至少部分透明
 const backdrop = prefixStyle('backdrop-filter')
 export default {
+  mixins: [playlistMixin],
   props: {
     bgImage: {
       type: String,
