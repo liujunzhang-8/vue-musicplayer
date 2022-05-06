@@ -1,0 +1,31 @@
+<template>
+    <div class='slide'>
+        <<transition>
+            <music-list :title="title" :bg-image="bgImage" :songs="songs"></music-list>
+        </transition>
+    </div>
+</template>
+
+<script>
+import MusicList from '../../components/music-list/music-list'
+import { getSongList } from '../../api/recommend'
+import { ERR_OK } from '../../api/config'
+import { mapGetters } from 'vuex'
+import { createSong } from '../../common/js/song'
+export default {
+    components: {
+        MusicList
+    },
+    data() {
+        return {
+
+        };
+    },
+    computed: {},
+}
+</script>
+<style lang='scss' scoped>
+.slide-enter-active, .slide-leave-active {
+    transition: all 0.3s;
+}
+</style>
