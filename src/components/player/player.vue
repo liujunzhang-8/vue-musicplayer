@@ -353,7 +353,7 @@ export default {
     },
     error() {
       this.songReady = true;
-    },
+    },  
     updateTime(e) {
       this.currentTime = e.target.currentTime;
     },
@@ -442,7 +442,7 @@ export default {
       if (this.playing) {
         this.currentLyric.play();
       }
-      // this.currentSong.getLyric().then((lyric) => {
+      // Base64.decode(lyricCode).then((lyric) => {
       //     if(this.currentSong.lyric !== lyric) {
       //         return
       //     }
@@ -481,7 +481,7 @@ export default {
     ...mapMutations({
       setFullScreen: "SET_FULL_SCREEN",
       setPlayingState: "SET_PLAYING_STATE",
-      setCurrentIndex: "SET_CURRENT_INDEX",
+    //   setCurrentIndex: "SET_CURRENT_INDEX",
       setPlayMode: "SET_PLAY_MODE",
       setPlaylist: "SET_PLAYLIST",
     }),

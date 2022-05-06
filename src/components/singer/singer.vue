@@ -11,11 +11,13 @@ import { getSingerList } from "../../api/singer";
 import { ERR_OK1 } from "../../api/config";
 import Singer from "../../common/js/singer";
 import { mapMutations } from "vuex";
+import { playerMixin } from '../../common/js/mixin'
 
 const HOT_SINGER_LEN = 10;
 const HOT_NAME = "热门";
 
 export default {
+    mixins: [playerMixin], 
   components: {
     ListView,
   },
@@ -28,6 +30,11 @@ export default {
     this._getSingerList();
   },
   methods: {
+      handlePlaylist(playlist) {
+          const bottom = playlist.length > 0 ? '60px' : ''
+          this.$refs.singer.style.bottom = bottom
+          this.$refs.list.refresh()
+      },      
     _getSingerList() {
       getSingerList().then((res) => {
         if (res.code === ERR_OK1) {

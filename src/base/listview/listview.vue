@@ -105,9 +105,6 @@ export default {
     this.touch = {};
     this.listHeight = [];
   },
-  mounted() {
-    console.log(this.data, "获取歌手数据");
-  },
   methods: {
     selectItem(item) {
       this.$emit("select", item);
