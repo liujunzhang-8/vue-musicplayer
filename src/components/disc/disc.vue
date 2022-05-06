@@ -1,6 +1,6 @@
 <template>
     <div class='slide'>
-        <<transition>
+        <transition>
             <music-list :title="title" :bg-image="bgImage" :songs="songs"></music-list>
         </transition>
     </div>
@@ -37,17 +37,18 @@ export default {
     },
     methods: {
         _getSongList() {
-            if(!this.disc.dissid) {
+            if(!this.disc.album_pic_mid) {
                 this.$router.push('/recommend')
                 return
             }
-            getSongList(this.disc.dissid).then(res => {
+            getSongList(this.disc.album_pic_mid).then(res => {
+                console.log(res, '获取到哈市大家ask');
                 if(res.code === ERR_OK) {
                     this.songs = this._normalizeSongs(res.cdlist[0].songlist)
                 }
             })
         },
-        _normalizeSongs() {
+        _normalizeSongs(list) {
             let ret = []
             list.forEach(musicData => {
                 if(musicData.songid && musicData.albummid) {

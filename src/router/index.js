@@ -34,6 +34,12 @@ const SingerDetail = (resolve) => {
     })
 }
 
+const Disc = (resolve) => {
+    import('../components/disc/disc.vue').then(module => {
+        resolve(module)
+    })
+}
+
 export default new Router({
     routes: [
         {
@@ -42,7 +48,13 @@ export default new Router({
         },
         {
             path: '/recommend',
-            component: Recommend
+            component: Recommend,
+            children: [
+                {
+                    path: ':id',
+                    component: Disc
+                }
+            ]
         },
         {
             path: '/singer',

@@ -67,8 +67,11 @@ export default {
                 this.$refs.scroll.refresh()
             }
         },
-        selectItem() {
-            console.log('点击歌曲名');
+        selectItem(item) {
+            console.log(item, '鞥斯大林回复');
+            this.$router.push({
+                path: `/recommend/${item.album_pic_mid}`
+            })
         },
         _getRecommend() {
             getRecommend().then(res => {
