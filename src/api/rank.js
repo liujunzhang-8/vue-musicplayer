@@ -18,7 +18,7 @@ export function getMusicList(topid) {
 
     const data = Object.assign({}, commonParams, {
         topid,
-        needNewCode: 1,
+        needNewCode: 1, 
         uin: 0,
         tpl: 3,
         page: 'detail',

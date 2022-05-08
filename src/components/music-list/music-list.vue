@@ -16,7 +16,7 @@
     <div class="bg-layer" ref="layer"></div>
     <scroll :probe-type="probeType" :listen-scroll="listenScroll" :data="songs" @scroll="scroll" class="list" ref="list">
         <div class="song-list-wrapper">
-            <song-list @select="selectItem" :songs="songs"></song-list>
+            <song-list @select="selectItem" :songs="songs" :rank='rank'></song-list>
         </div>
         <div v-show="!songs.length" class="loading-container">
             <loading></loading>
@@ -115,6 +115,11 @@ export default {
       this.$refs.list.$el.style.top = `${this.imageHeight}px`
   },
   methods: {
+    handlePlaylist(playlist) {
+        const bottom = playlist.length > 0 ? '60px' : ''
+        this.$refs.list.$el.style.bottom = bottom
+        this.$refs.list.refresh()
+    },
     back() {
       this.$router.back();
     },
