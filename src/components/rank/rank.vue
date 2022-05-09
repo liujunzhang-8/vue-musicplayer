@@ -26,7 +26,7 @@
 import Scroll from '../../base/scroll/scroll'
 import Loading from '../../base/loading/loading'
 import { getTopList } from '../../api/rank'
-import { ERR_OK } from '../../api/config'
+import { ERR_OK1 } from '../../api/config'
 import { playlistMixin } from '../../common/js/mixin'
 import { mapMutations } from 'vuex'
 export default {
@@ -48,9 +48,10 @@ export default {
         handlePlaylist(playlist) {
             const bottom = playlist.length > 0 ? '60px' : ''
             this.$refs.rank.style.bottom = bottom
-            this.$refs.topList.refresh()
+            this.$refs.toplist.refresh()
         },
         selectItem(item) {
+            console.log(item, '打印出来的额idtb');
             this.$router.push({
                 path: `/rank/${item.id}`
             })
@@ -58,7 +59,7 @@ export default {
         },
         _getTopList() {
             getTopList().then(res => {
-                if(res.code === ERR_OK) {
+                if(res.code === ERR_OK1) {
                     this.topList = res.data.topList
                 }
             })

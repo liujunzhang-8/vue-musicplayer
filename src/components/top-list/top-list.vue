@@ -7,7 +7,7 @@
 <script>
 import MusicList from '../../components/music-list/music-list'
 import { getMusicList } from '../../api/rank'
-import { ERR_OK } from '../../api/config'
+import { ERR_OK1 } from '../../api/config'
 import { mapGetters } from 'vuex'
 import { createSong } from '../../common/js/song'
 export default {
@@ -34,6 +34,9 @@ export default {
             'topList'
         ])
     },
+    created() {
+        this._getMusicList()
+    },
     methods: {
         _getMusicList() {
             if(!this.topList.id) {
@@ -41,7 +44,8 @@ export default {
                 return
             }
             getMusicList(this.topList.id).then(res => {
-                if(res.code === ERR_OK) {
+                if(res.code === ERR_OK1) {
+                    console.log(this.songs, '暗红色的');
                     this.songs = this._normalizeSongs(res.songlist)
                 }
             })
