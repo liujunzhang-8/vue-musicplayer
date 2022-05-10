@@ -7,9 +7,9 @@
         :key="index"
         @click="selectItem(song, index)"
       >
-        <!-- <div class="rank" v-show="rank">
-                    <span :class="getRankCls(index)" v-text="getRankText(index)"></span>
-                </div> -->
+        <div class="rank" v-show="rank">
+            <span :class="getRankCls(index)" v-text="getRankText(index)"></span>
+        </div>
         <div class="content">
           <h2 class="name">{{ song.album_name }}</h2>
           <p class="desc">{{ song.desc.substr(0, 20) }}</p>
