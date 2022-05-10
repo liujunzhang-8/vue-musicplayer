@@ -79,6 +79,7 @@ export const insertSong = function ({commit, state}, song) {
         }
     }
 
+    // 提交mutations
     commit(types.SET_PLAYLIST, playlist)
     commit(types.SET_SEQUENCE_LIST, sequenceList)
     commit(types.SET_CURRENT_INDEX, currentIndex)
