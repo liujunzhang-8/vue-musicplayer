@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { debounce } from '../../common/js/utile';
 export default {
     components: {},
     props: {
@@ -23,12 +24,18 @@ export default {
     methods: {
         clear() {
             this.query = ''
+        },
+        setQuery(query) {
+            this.query = query
+        },
+        blur() {
+            this.$refs.query.blur()
         }
     },
     created() {
-        this.$watch(query, (newQuery) => {
+        this.$watch(query, debounce((newQuery) => {
             this.$emit('query', newQuery)
-        })
+        }, 200))
     },
     computed: {},
 }
