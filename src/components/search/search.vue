@@ -33,16 +33,23 @@
 
 <script>
 import SearchBox from '../../base/search-box/search-box'
-// import SearchList from '../../base/'
+import SearchList from '../../base/search-list/search-list'
 import Scroll from '../../base/scroll/scroll'
+import Suggest from '../../components/suggest/suggest'
+import { getHotKey } from '../../api/search'
+import { ERR_OK } from '../../api/config'
+import { playlistMixin, searchMixin } from '../../common/js/mixin'
+import { mapActions } from 'vuex'
+
 export default {
+    mixins: [playlistMixin, searchMixin],
     components: {
         SearchBox,
         Scroll
     },
     data() {
         return {
-
+            hotKey: []
         };
     },
     computed: {},
