@@ -14,7 +14,7 @@
           <i :class="getIconCls(item)"></i>
         </div>
         <div class="name">
-          <p class="text"></p>
+          <p class="text">{{item.songname}}</p>
         </div>
       </li>
       <loading v-show="hasMore"></loading>
@@ -78,9 +78,9 @@ export default {
           this.hasMore = true
           this.$refs.suggest.scrollTo(0, 0)
           search(this.query, this.page, this.showSinger, perpage).then(res => {
-              if(res.code === ERR_OK) {
-                  this.result = this._getResult(res.data)
-                  this._checkMore(res.data)
+              if(res.result === ERR_OK) {
+                  this.result = res.data.list
+                  this._checkMore(res.data.list)
               }
           })
       },
@@ -90,6 +90,7 @@ export default {
           }
           this.page++
           search(this.query, this.page, this.showSinger, perpage).then(res => {
+              console.log('收到回复', res);
               if(res.code === ERR_OK) {
                   this.result = this.result.concat(this._getResult(res.data))
                   this._checkMore(res.data)
