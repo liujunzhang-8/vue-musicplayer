@@ -3,15 +3,18 @@ import { commonParams, options } from './config'
 import { request } from '../common/js/axios'
 
 export function getHotKey() {
-    const url = 'https://c.y.qq.com/splcloud/fcgi-bin/gethotkey.fcg'
+    const url = '/search/hot'
 
-    const data = Object.assign({}, commonParams, {
-        uin: 0,
-        needNewCode: 1,
-        platform: 'h5'
+    // const data = Object.assign({}, commonParams, {
+    //     uin: 0,
+    //     needNewCode: 1,
+    //     platform: 'h5'
+    // })
+
+    // return jsonp(url, data, options)
+    return request(url).then(res => {
+        return Promise.resolve(res)
     })
-
-    return jsonp(url, data, options)
 }
 
 export function search(query, page, perpage, t) {

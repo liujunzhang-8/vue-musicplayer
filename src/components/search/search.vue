@@ -40,7 +40,7 @@ import SearchList from '../../base/search-list/search-list'
 import Scroll from '../../base/scroll/scroll'
 import Suggest from '../../components/suggest/suggest'
 import { getHotKey } from '../../api/search'
-import { ERR_OK1 } from '../../api/config'
+import { ERR_OK } from '../../api/config'
 import { playlistMixin, searchMixin } from '../../common/js/mixin'
 import { mapActions } from 'vuex'
 import Confirm from '../../base/confirm/confirm.vue'
@@ -91,8 +91,9 @@ export default {
         },
         _getHotKey() {
             getHotKey().then(res => {
-                if(res.code === ERR_OK1) {
-                    this.hotKey = res.data.hotkey.slice(0, 10)
+                if(res.result === ERR_OK) {
+                    console.log(res.data, '获取到热搜');
+                    this.hotKey = res.data.slice(0, 12)
                 }
             })
         },
