@@ -16,7 +16,7 @@ export function getHotKey() {
 
 export function search(query, page, perpage, t) {
     // const url = 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp'
-    const url = `/search?key=${query}`
+    const url = `/search?key=${query}&pageNo=${page}&pageSize=${perpage}&t=0`
 
     // const data = Object.assign({}, commonParams, {
     //     w: query,
@@ -36,12 +36,10 @@ export function search(query, page, perpage, t) {
     //     platform: 'h5'
     // })
 
-    const data = { page, perpage, t }
+    // const data = { page, perpage, t }
 
     // return jsonp(url, data, options)
-    return request(url, {
-        params: data
-    }).then(res => {
+    return request(url).then(res => {
         return Promise.resolve(res)
     })
 }

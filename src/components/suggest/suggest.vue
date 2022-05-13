@@ -77,7 +77,7 @@ export default {
           this.page = 1
           this.hasMore = true
           this.$refs.suggest.scrollTo(0, 0)
-          search(this.query, this.page, this.showSinger, perpage).then(res => {
+          search(this.query, this.page, perpage).then(res => {
               if(res.result === ERR_OK) {
                   this.result = res.data.list
                   this._checkMore(res.data)
@@ -89,7 +89,7 @@ export default {
               return
           }
           this.page++
-          search(this.query, this.page, this.showSinger, perpage).then(res => {
+          search(this.query, this.page, perpage).then(res => {
               if(res.result === ERR_OK) {
                   this.result = this.result.concat(this._getResult(res.data.list))
                   console.log('收到回复', perpage);
