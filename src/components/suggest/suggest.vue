@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      page: 1,
+      page: 2,
       pullup: true,
       beforeScroll: true,
       hasMore: true,
@@ -80,7 +80,7 @@ export default {
           search(this.query, this.page, this.showSinger, perpage).then(res => {
               if(res.result === ERR_OK) {
                   this.result = res.data.list
-                  this._checkMore(res.data.list)
+                  this._checkMore(res.data)
               }
           })
       },
@@ -90,9 +90,9 @@ export default {
           }
           this.page++
           search(this.query, this.page, this.showSinger, perpage).then(res => {
-              console.log('收到回复', res);
-              if(res.code === ERR_OK) {
-                  this.result = this.result.concat(this._getResult(res.data))
+              if(res.result === ERR_OK) {
+                  this.result = this.result.concat(this._getResult(res.data.list))
+                  console.log('收到回复', perpage);
                   this._checkMore(res.data)
               }
           })
@@ -149,8 +149,9 @@ export default {
           return ret
       },
       _checkMore(data) {
-          const song = data.song
-          if(!song.list.length || (song.curnum + song.curpage * perpage) > song.totalnum) {
+          console.log(data, 'checkMore');
+        //   const song = data.list
+          if(!data.list.length || (data.pageNo * perpage) > data.total) {
               this.hasMore = false
           }
       },

@@ -1,6 +1,7 @@
 
 import storage from "good-storage"
 
+// 存储键为__search__的值，最大存储15条数据
 const SEARCH_KEY = '__search__'
 const SEARCH_MAX_LEN = 15
 
@@ -31,6 +32,7 @@ function deleteFromArray(arr, compare) {
     }
 }
 
+// 存储本地，将数据存储在localstorage
 export function saveSearch(query) {
     let searches = storage.get(SEARCH_KEY, [])
     insertArray(searches, query, item => {
