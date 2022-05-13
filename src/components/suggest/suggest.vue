@@ -92,7 +92,6 @@ export default {
           search(this.query, this.page, perpage).then(res => {
               if(res.result === ERR_OK) {
                   this.result = this.result.concat(this._getResult(res.data.list))
-                  console.log('收到回复', perpage);
                   this._checkMore(res.data)
               }
           })
@@ -123,19 +122,22 @@ export default {
           }
       },
       getIconCls(item) {
-          if(item.type === TYPE_SINGER) {
-              return 'icon-mine'
-          } else {
-              return 'icon-music'
-          }
+        //   if(item.type === TYPE_SINGER) {
+        //       return 'icon-mine'
+        //   } else {
+        //       return 'icon-music'
+        //   }
+        return 'icon-music'
       },
       _getResult(data) {
           let ret = []
-          if(data.zhida && data.zhida.singerid) {
-              ret.push({...data.zhida, ...{type: TYPE_SINGER}})
-          }
-          if(data.song) {
-            ret = ret.concat(this._normalizeSongs(data.song.list))
+          if(data.length) {
+            data.forEach(item => {
+                ret.push({...item.singer, ...{type: TYPE_SINGER}})
+            }) 
+            console.log(ret, '卫生间佛哈德');
+            // ret = ret.concat(this._normalizeSongs(data))
+            // ret = ret.concat(data)    
           }
           return ret
       },

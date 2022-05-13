@@ -1,5 +1,5 @@
-import jsonp from "../common/js/jsonp";
-import { commonParams, options } from './config'
+// import jsonp from "../common/js/jsonp";
+// import { commonParams, options } from './config'
 import { request } from '../common/js/axios'
 
 export function getHotKey() {
@@ -17,7 +17,7 @@ export function getHotKey() {
     })
 }
 
-export function search(query, page, perpage, t) {
+export function search(query, page, perpage) {
     // const url = 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp'
     const url = `/search?key=${query}&pageNo=${page}&pageSize=${perpage}&t=0`
 

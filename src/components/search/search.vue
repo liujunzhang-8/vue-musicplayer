@@ -92,7 +92,6 @@ export default {
         _getHotKey() {
             getHotKey().then(res => {
                 if(res.result === ERR_OK) {
-                    console.log(res.data, '获取到热搜');
                     this.hotKey = res.data.slice(0, 12)
                 }
             })
