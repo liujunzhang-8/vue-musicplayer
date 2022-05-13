@@ -91,7 +91,7 @@ export default {
           this.page++
           search(this.query, this.page, perpage).then(res => {
               if(res.result === ERR_OK) {
-                  this.result = this.result.concat(this._getResult(res.data.list))
+                  this.result = this.result.concat(res.data.list)
                   this._checkMore(res.data)
               }
           })
@@ -122,12 +122,12 @@ export default {
           }
       },
       getIconCls(item) {
-        //   if(item.type === TYPE_SINGER) {
-        //       return 'icon-mine'
-        //   } else {
-        //       return 'icon-music'
-        //   }
-        return 'icon-music'
+          if(item.type === TYPE_SINGER) {
+              return 'icon-mine'
+          } else {
+              return 'icon-music'
+          }
+        // return 'icon-music'
       },
       _getResult(data) {
           let ret = []
