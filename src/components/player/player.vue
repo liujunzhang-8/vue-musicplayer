@@ -116,11 +116,12 @@
             ></i>
           </progress-circle>
         </div>
-        <div class="control">
+        <div class="control" @click.stop='showPlaylist'>
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition>
+    <playlist ref="playlist"></playlist>
     <audio
       ref="audio"
       :src="currentSong.url"
@@ -143,7 +144,8 @@ import Lyric from "lyric-parser";
 import Scroll from "../../base/scroll/scroll";
 import { playerMixin } from "../../common/js/mixin";
 import { playMode } from "../../common/js/config";
-import { Base64 } from "js-base64"
+import { Base64 } from "js-base64";
+import Playlist from '../../components/playlist/playlist'
 
 const transform = prefixStyle("transform");
 const transitionDuration = prefixStyle("transitionDuration");
@@ -153,6 +155,7 @@ export default {
     ProgressBar,
     ProgressCircle,
     Scroll,
+    Playlist
   },
   data() {
     return {
@@ -477,6 +480,9 @@ export default {
         y,
         scale,
       };
+    },
+    showPlaylist() {
+        this.$refs.playlist.show()
     },
     ...mapMutations({
       setFullScreen: "SET_FULL_SCREEN",
