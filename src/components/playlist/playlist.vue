@@ -11,9 +11,9 @@
                 </div>
                 <scroll ref="listContent" :data="sequenceList" class="list-content" :refreshDelay="refreshDelay">
                     <transition-group ref="list" name="list" tag="ul">
-                        <li class="item" v-for="(item, index) in sequenceList" :key="item.id" @click="selectItem(item, index)">
+                        <li class="item" v-for="(item, index) in sequenceList" :key="item.albumid" @click="selectItem(item, index)">
                             <i class="current" :class="getCurrentIcon(item)"></i>
-                            <span class="text">{{item.name}}</span>
+                            <span class="text">{{item.album_name}}</span>
                             <span @click.stop="toggleFavorite(item)" class="like">
                                 <i :class="getFavoriteIcon(item)"></i>
                             </span>
@@ -108,6 +108,7 @@ export default {
             this.setPlayingState(true)
         },
         scrollToCurrent(current) {
+            console.log(this.sequenceList, '获取德奥就爱上凤凰');
             const index = this.sequenceList.findIndex(song => {
                 return current.id === song.id
             })
