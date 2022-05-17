@@ -353,6 +353,7 @@ export default {
     },
     ready() {
       this.songReady = true;
+      this.savePlayHistory(this.currentSong)
     },
     error() {
       this.songReady = true;
@@ -486,12 +487,8 @@ export default {
     },
     ...mapMutations({
       setFullScreen: "SET_FULL_SCREEN",
-      setPlayingState: "SET_PLAYING_STATE",
-    //   setCurrentIndex: "SET_CURRENT_INDEX",
-      setPlayMode: "SET_PLAY_MODE",
-      setPlaylist: "SET_PLAYLIST",
     }),
-    ...mapActions(["insertSong"]),
+    ...mapActions(["savePlayHistory"]),
   },
 };
 </script>

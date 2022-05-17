@@ -23,6 +23,7 @@ yarn lint
 ### 现存问题
 ```
 加入收藏功能
+图片接口
 播放功能
 
 ### Customize configuration
