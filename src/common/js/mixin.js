@@ -62,7 +62,7 @@ export const playerMixin = {
             if(this.isFavorite(song)) {
                 this.deleteFavoriteList(song)
             } else {
-                this.savaFavoriteList(song)
+                this.saveFavoriteList(song)
             }
         },
         getFavoriteIcon(song) {
