@@ -108,7 +108,6 @@ export default {
             this.setPlayingState(true)
         },
         scrollToCurrent(current) {
-            console.log(this.sequenceList, '获取德奥就爱上凤凰');
             const index = this.sequenceList.findIndex(song => {
                 return current.id === song.id
             })

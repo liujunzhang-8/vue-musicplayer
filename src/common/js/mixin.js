@@ -73,8 +73,9 @@ export const playerMixin = {
         },
         isFavorite(song) {
             const index = this.favoriteList.findIndex(item => {
-                return item.id === song.id
+                return item.albumid === song.albumid
             }) 
+            console.log(index == -1, '到底可以吗');
             return index > -1
         },
         ...mapMutations({
