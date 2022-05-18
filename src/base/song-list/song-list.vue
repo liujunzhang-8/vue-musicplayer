@@ -12,7 +12,7 @@
         </div>
         <div class="content">
           <h2 class="name">{{ song.album_name }}</h2>
-          <p class="desc">{{ song.desc.substr(0, 20) }}</p>
+          <p class="desc">{{ song.desc }}</p>
         </div>
       </li>
     </ul>
