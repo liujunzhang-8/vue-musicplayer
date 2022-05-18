@@ -5,7 +5,19 @@
                 <i class="icon-back"></i>
             </div>
             <div class="switches-wrapper">
-                <switches></switches>
+                <switches @switch="switchItem" :switches="switches" :currentIndex="currentIndex"></switches>
+            </div>
+            <div ref="playBtn" class="play-btn" @click="random">
+                <i class="icon-play"></i>
+                <span class="text">随机播放全部</span>
+            </div>
+            <div class="list-wrapper" ref="listWrapper">
+                <scroll>
+                    <div>
+                        <song-list></song-list>
+                    </div>
+                </scroll>
+                <scroll></scroll>
             </div>
         </div>
     </transition>
@@ -13,20 +25,65 @@
 
 <script>
 import Switches from '@/base/switches/switches'
+import Scroll from '@/base/scroll/scroll'
+import SongList from '@/base/song-list/song-list'
+import Song from '@/common/js/song'
+import { mapGetters, mapActions } from 'vuex';
+import { playlistMixin } from '@/common/js/mixin'
 export default {
+    mixins: [playlistMixin],
     components: {
-        Switches
+        Switches,
+        Scroll,
+        SongList
     },
     data() {
         return {
-
+            currentIndex: 0,
+            switches: [
+                {
+                    name: '我喜欢的'
+                },
+                {
+                    name: '最近听的'
+                }
+            ]
         };
     },
-    computed: {},
+    computed: {
+        ...mapGetters([
+            'favoriteList',
+            'playHistory'
+        ])
+    },
     methods: {
+        handlePlaylist(playlist) {
+            const bottom = playlist.length > 0 ? '60px' : ''
+            this.$refs.listWrapper.style.bottom = bottom
+            this.$refs.favoriteList && this.$refs.favoriteList.refresh()
+            this.$refs.playList && this.$refs.playList.refresh()
+        },
         back() {
             this.$router.back()
-        }
+        },
+        switchItem(index) {
+            this.currentIndex = index
+        },
+        random() {
+            let list = this.currentIndex === 0 ? this.favoriteList : this.playHistory
+            if(list.length === 0) {
+                return
+            }
+            list = list.map(song => {
+                return new Song(song)
+            })
+            this.randomPlay({
+                list
+            })
+        },
+        ...mapActions([
+            'randomPlay'
+        ])
     }
 }
 </script>
@@ -57,6 +114,37 @@ export default {
             font-size: $font-size-large-x;
             color: $color-theme;
         }
+    }
+    .switches-wrapper {
+        margin: 20px 0 30px 0;
+    }
+    .play-btn {
+        box-sizing: border-box;
+        width: 135px;
+        padding: 7px 0;
+        margin: 0 auto;
+        text-align: center;
+        border: 1px solid $color-text-l;
+        color: $color-text-l;
+        border-radius: 100px;
+        font-size: 0;
+        .icon-play {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 6px;
+            font-size: $font-size-medium-x;
+        }
+        .text {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: $font-size-small;
+        }
+    }
+    .list-wrapper {
+        position: absolute;
+        top: 110px;
+        bottom: 0;
+        width: 100%;
     }
 }
 
