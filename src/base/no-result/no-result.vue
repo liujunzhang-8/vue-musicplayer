@@ -33,7 +33,7 @@ export default {
         height: 90px;
         margin: 0 auto;
         // bg-image('no-result')
-        background-image: "./no-result@2x.png";
+        background-image: url("./no-result@2x.png");
         background-size: 86px 90px;
     }
     .no-result-text {

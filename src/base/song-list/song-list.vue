@@ -11,7 +11,7 @@
             <span :class="getRankCls(index)" v-text="getRankText(index)"></span>
         </div>
         <div class="content">
-          <h2 class="name">{{ song.album_name }}</h2>
+          <h2 class="name">{{ song.album_name || song.songname }}</h2>
           <p class="desc" v-if="song.desc">{{ song.desc.substr(0, 20) }}</p>
         </div>
       </li>
