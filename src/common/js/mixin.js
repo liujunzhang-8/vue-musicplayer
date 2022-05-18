@@ -73,7 +73,6 @@ export const playerMixin = {
         },
         isFavorite(song) {
             const index = this.favoriteList.findIndex(item => {
-                console.log(item, 'item.albumid');
                 return item.album_mid === song.album_mid
             }) 
             return index > -1

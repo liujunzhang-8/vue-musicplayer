@@ -12,7 +12,7 @@
         </div>
         <div class="content">
           <h2 class="name">{{ song.album_name }}</h2>
-          <p class="desc">{{ song.desc }}</p>
+          <p class="desc" v-if="song.desc">{{ song.desc.substr(0, 20) }}</p>
         </div>
       </li>
     </ul>
@@ -66,8 +66,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../common/scss/variable.scss";
-@import "../../common/scss/mixin.scss";
+@import "@/common/scss/variable.scss";
+@import "@/common/scss/mixin.scss";
 
 .song-list {
   .item {
