@@ -25,6 +25,7 @@ yarn lint
 收藏功能
 图片接口
 播放功能
+目前基本项目已搭建，部分功能暂时有缺陷，后期逐步优化
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
